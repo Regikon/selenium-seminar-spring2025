@@ -1,0 +1,5 @@
+-i https://pypi.org/simple
+allure-pytest
+pytest
+selenium==4.9
+webdriver-manager
