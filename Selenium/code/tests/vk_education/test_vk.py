@@ -8,7 +8,6 @@ from ui.pages.vk.login_page import LoginPage
 from ui.pages.vk.main_page import MainPage
 import os
 
-
 class BaseCase:
     authorize = False
 
@@ -62,4 +61,18 @@ class TestLogin(BaseCase):
 
 class TestSearchPeople(BaseCase):
     authorize = True
+    FULL_NAME = "Олег Музалев"
+    POSITIVE_QUERY = "Музалев"
+    NEGATIVE_QUERY = "12038гысмджлтфыджво"
+    driver: WebDriver
+
+    def test_searches_human(self, feed_page: FeedPage):
+        search_page = feed_page.search(self.POSITIVE_QUERY)
+        assert(search_page.contains_entry_with_name(self.FULL_NAME))
+        assert(not search_page.has_nothing_found_caption())
+
+    def test_shows_caption_if_nothing_found(self, feed_page: FeedPage):
+        search_page = feed_page.search(self.NEGATIVE_QUERY)
+        assert(not search_page.has_found())
+        assert(search_page.has_nothing_found_caption())
 
