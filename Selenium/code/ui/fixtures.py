@@ -3,8 +3,6 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.firefox import GeckoDriverManager
-from ui.pages.base_page import BasePage
-from ui.pages.main_page import MainPage
 
 
 @pytest.fixture()
@@ -33,6 +31,7 @@ def driver(config):
     else:
         raise RuntimeError(f'Unsupported browser: "{browser}"')
     driver.get(url)
+    # This line causes crash of the testing systems on linux OS
     #driver.maximize_window()
     yield driver
     driver.quit()
@@ -57,12 +56,3 @@ def all_drivers(config, request):
     yield browser
     browser.quit()
 
-
-@pytest.fixture
-def base_page(driver):
-    return BasePage(driver=driver)
-
-
-@pytest.fixture
-def main_page(driver):
-    return MainPage(driver=driver)
