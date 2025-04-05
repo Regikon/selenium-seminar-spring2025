@@ -1,3 +1,6 @@
+from typing import Union
+
+from selenium.webdriver.remote.webelement import WebElement
 from ui.pages.vk.base_page import BasePage
 from ui.locators.vk_locators import SearchPageLocators
 
@@ -21,3 +24,14 @@ class SearchPage(BasePage):
 
     def has_found(self) -> bool:
         return self.is_element_present(self.locators.SEARCH_RESULT_ENTRY)
+
+    def select_lessons(self):
+        self.click(self.locators.LESSONS_BUTTON)
+
+    def find_lesson_by_name(self,name: str, timeout=15) -> Union[WebElement, None]:
+        lesson_names = self.find_many(self.locators.LESSON_NAME)
+        for lesson_name in lesson_names:
+            if name == lesson_name.text:
+                return lesson_name
+        return None
+

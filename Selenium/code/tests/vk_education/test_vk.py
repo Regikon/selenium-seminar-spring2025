@@ -76,3 +76,14 @@ class TestSearchPeople(BaseCase):
         assert(not search_page.has_found())
         assert(search_page.has_nothing_found_caption())
 
+class TestSearchSeminar(BaseCase):
+    authorize = True
+    QUERY = 'selenium'
+    TRUE_NAME = 'Автоматизация тестирования'
+
+    def test_finds_seminar(self, feed_page: FeedPage):
+        search_page = feed_page.search(self.QUERY)
+        search_page.select_lessons()
+        lesson = search_page.find_lesson_by_name(self.TRUE_NAME)
+        assert(lesson is not None)
+        assert(lesson.text == self.TRUE_NAME)
